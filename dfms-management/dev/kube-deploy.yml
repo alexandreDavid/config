@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dfms-management
+  name: dfms-management-dev
   namespace: test
   labels:
-    app: dfms-management
+    app: dfms-management-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dfms-management
+      app: dfms-management-dev
   # Pod template
   template:
     metadata:
       namespace: test
       labels:
-        app: dfms-management
+        app: dfms-management-dev
         commit: _VERSION_
     spec:
       containers:
-      - name: dfms-management
+      - name: dfms-management-dev
         image: dfmscloud/dfms-management:dev
         imagePullPolicy: Always
         ports:
@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dfms-management
+  name: dfms-management-dev
   namespace: test
   labels:
-    app: dfms-management
+    app: dfms-management-dev
 spec:
   type: LoadBalancer
   ports:
