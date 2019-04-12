@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dfms-management
+  namespace: test
+  labels:
+    app: dfms-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dfms-management
+  # Pod template
+  template:
+    metadata:
+      namespace: test
+      labels:
+        app: dfms-management
+        commit: _VERSION_
+    spec:
+      containers:
+      - name: dfms-management
+        image: dfmscloud/dfms-management:dev
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dfms-management
+  namespace: test
+  labels:
+    app: dfms-management
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+      app: dfms-management
